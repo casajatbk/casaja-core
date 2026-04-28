@@ -64,11 +64,21 @@ export type SupportedTimezones =
 export interface Config {
   auth: {
     users: UserAuthOperations;
+    admins: AdminAuthOperations;
   };
   blocks: {};
   collections: {
-    users: User;
+    products: Product;
+    'product-images': ProductImage;
+    reviews: Review;
+    orders: Order;
+    'order-items': OrderItem;
+    payments: Payment;
+    locations: Location;
+    'terms-and-conditions': TermsAndCondition;
     media: Media;
+    users: User;
+    admins: Admin;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -76,8 +86,17 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
-    users: UsersSelect<false> | UsersSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    'product-images': ProductImagesSelect<false> | ProductImagesSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    'order-items': OrderItemsSelect<false> | OrderItemsSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
+    locations: LocationsSelect<false> | LocationsSelect<true>;
+    'terms-and-conditions': TermsAndConditionsSelect<false> | TermsAndConditionsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    admins: AdminsSelect<false> | AdminsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -93,7 +112,7 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User;
+  user: User | Admin;
   jobs: {
     tasks: unknown;
     workflows: unknown;
@@ -116,6 +135,218 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+export interface AdminAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: string;
+  productImageId?: (string | null) | ProductImage;
+  name: string;
+  description?: string | null;
+  stock: number;
+  availableStock: number;
+  pricePerSession: number;
+  condition?: ('good' | 'minor_damage' | 'damaged') | null;
+  status?: ('active' | 'inactive') | null;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-images".
+ */
+export interface ProductImage {
+  id: string;
+  image: string | Media;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: string;
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: string;
+  orderId: string | Order;
+  productId: string | Product;
+  rating: number;
+  comment?: string | null;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: string;
+  orderCode: string;
+  orderStatus?: ('pending_payment' | 'paid' | 'approved' | 'ongoing' | 'completed' | 'cancelled' | 'rejected') | null;
+  customerName?: string | null;
+  customerNim?: string | null;
+  customerPhone?: string | null;
+  customerEmail?: string | null;
+  customerRoom?: string | null;
+  fulfillmentMethod?: ('pickup' | 'delivery') | null;
+  deliveryRoom?: string | null;
+  deliveryNotes?: string | null;
+  rentalStart: string;
+  rentalEnd: string;
+  actualReturnDate?: string | null;
+  sessionCount: number;
+  subtotalPrice: number;
+  paymentMethod?: ('midtrans' | 'cash' | 'manual_transfer') | null;
+  approvedBy?: (string | null) | Admin;
+  approvedAt?: string | null;
+  paidAt?: string | null;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "admins".
+ */
+export interface Admin {
+  id: string;
+  fullName: string;
+  username: string;
+  phone: string;
+  accountStatus?: ('active' | 'suspended' | 'deactivated') | null;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'admins';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "order-items".
+ */
+export interface OrderItem {
+  id: string;
+  orderId: string | Order;
+  productId: string | Product;
+  quantity: number;
+  pricePerSession: number;
+  subtotalPrice: number;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments".
+ */
+export interface Payment {
+  id: string;
+  orderId: string | Order;
+  paymentMethod: 'midtrans' | 'cash' | 'manual_transfer';
+  paymentStatus?: ('pending' | 'success' | 'failed' | 'expired' | 'refunded') | null;
+  transactionId?: string | null;
+  amount: number;
+  paidAt?: string | null;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations".
+ */
+export interface Location {
+  id: string;
+  name: string;
+  address: string;
+  description?: string | null;
+  isActive?: boolean | null;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-and-conditions".
+ */
+export interface TermsAndCondition {
+  id: string;
+  title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  sortOrder?: number | null;
+  isActive?: boolean | null;
+  deletedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -144,25 +375,6 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: string;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -186,18 +398,59 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'users';
-        value: string | User;
+        relationTo: 'products';
+        value: string | Product;
+      } | null)
+    | ({
+        relationTo: 'product-images';
+        value: string | ProductImage;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: string | Review;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: string | Order;
+      } | null)
+    | ({
+        relationTo: 'order-items';
+        value: string | OrderItem;
+      } | null)
+    | ({
+        relationTo: 'payments';
+        value: string | Payment;
+      } | null)
+    | ({
+        relationTo: 'locations';
+        value: string | Location;
+      } | null)
+    | ({
+        relationTo: 'terms-and-conditions';
+        value: string | TermsAndCondition;
       } | null)
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null)
+    | ({
+        relationTo: 'admins';
+        value: string | Admin;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'admins';
+        value: string | Admin;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -207,10 +460,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'users';
+        value: string | User;
+      }
+    | {
+        relationTo: 'admins';
+        value: string | Admin;
+      };
   key?: string | null;
   value?:
     | {
@@ -237,6 +495,148 @@ export interface PayloadMigration {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  productImageId?: T;
+  name?: T;
+  description?: T;
+  stock?: T;
+  availableStock?: T;
+  pricePerSession?: T;
+  condition?: T;
+  status?: T;
+  deletedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-images_select".
+ */
+export interface ProductImagesSelect<T extends boolean = true> {
+  id?: T;
+  image?: T;
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  orderId?: T;
+  productId?: T;
+  rating?: T;
+  comment?: T;
+  deletedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  orderCode?: T;
+  orderStatus?: T;
+  customerName?: T;
+  customerNim?: T;
+  customerPhone?: T;
+  customerEmail?: T;
+  customerRoom?: T;
+  fulfillmentMethod?: T;
+  deliveryRoom?: T;
+  deliveryNotes?: T;
+  rentalStart?: T;
+  rentalEnd?: T;
+  actualReturnDate?: T;
+  sessionCount?: T;
+  subtotalPrice?: T;
+  paymentMethod?: T;
+  approvedBy?: T;
+  approvedAt?: T;
+  paidAt?: T;
+  deletedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "order-items_select".
+ */
+export interface OrderItemsSelect<T extends boolean = true> {
+  orderId?: T;
+  productId?: T;
+  quantity?: T;
+  pricePerSession?: T;
+  subtotalPrice?: T;
+  deletedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  orderId?: T;
+  paymentMethod?: T;
+  paymentStatus?: T;
+  transactionId?: T;
+  amount?: T;
+  paidAt?: T;
+  deletedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "locations_select".
+ */
+export interface LocationsSelect<T extends boolean = true> {
+  name?: T;
+  address?: T;
+  description?: T;
+  isActive?: T;
+  deletedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "terms-and-conditions_select".
+ */
+export interface TermsAndConditionsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  sortOrder?: T;
+  isActive?: T;
+  deletedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
@@ -259,21 +659,30 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "admins_select".
  */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T;
+export interface AdminsSelect<T extends boolean = true> {
+  fullName?: T;
+  username?: T;
+  phone?: T;
+  accountStatus?: T;
+  deletedAt?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
