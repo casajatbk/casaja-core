@@ -1,7 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
 export const OrderItems: CollectionConfig = {
-  slug: 'order-items',
+  slug: 'order_items',
+  labels: {
+    singular: 'Order Item',
+    plural: 'Order Items',
+  },
   admin: {
     useAsTitle: 'id',
     group: 'Transaction',

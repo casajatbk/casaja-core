@@ -1,7 +1,11 @@
 import type { CollectionConfig } from 'payload'
 
 export const TermsAndConditions: CollectionConfig = {
-  slug: 'terms-and-conditions',
+  slug: 'terms_and_conditions',
+  labels: {
+    singular: 'Terms and Condition',
+    plural: 'Terms and Conditions',
+  },
   admin: {
     useAsTitle: 'title',
     group: 'Content',
