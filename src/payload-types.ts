@@ -69,13 +69,13 @@ export interface Config {
   blocks: {};
   collections: {
     products: Product;
-    'product-images': ProductImage;
+    product_images: ProductImage;
     reviews: Review;
     orders: Order;
-    'order-items': OrderItem;
+    order_items: OrderItem;
     payments: Payment;
     locations: Location;
-    'terms-and-conditions': TermsAndCondition;
+    terms_and_conditions: TermsAndCondition;
     media: Media;
     users: User;
     admins: Admin;
@@ -87,13 +87,13 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     products: ProductsSelect<false> | ProductsSelect<true>;
-    'product-images': ProductImagesSelect<false> | ProductImagesSelect<true>;
+    product_images: ProductImagesSelect<false> | ProductImagesSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
-    'order-items': OrderItemsSelect<false> | OrderItemsSelect<true>;
+    order_items: OrderItemsSelect<false> | OrderItemsSelect<true>;
     payments: PaymentsSelect<false> | PaymentsSelect<true>;
     locations: LocationsSelect<false> | LocationsSelect<true>;
-    'terms-and-conditions': TermsAndConditionsSelect<false> | TermsAndConditionsSelect<true>;
+    terms_and_conditions: TermsAndConditionsSelect<false> | TermsAndConditionsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     admins: AdminsSelect<false> | AdminsSelect<true>;
@@ -174,22 +174,12 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-images".
+ * via the `definition` "product_images".
  */
 export interface ProductImage {
   id: string;
-  image: string | Media;
   alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: string;
-  alt: string;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -277,7 +267,7 @@ export interface Admin {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "order-items".
+ * via the `definition` "order_items".
  */
 export interface OrderItem {
   id: string;
@@ -322,7 +312,7 @@ export interface Location {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "terms-and-conditions".
+ * via the `definition` "terms_and_conditions".
  */
 export interface TermsAndCondition {
   id: string;
@@ -347,6 +337,26 @@ export interface TermsAndCondition {
   deletedAt?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: string;
+  alt: string;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -402,7 +412,7 @@ export interface PayloadLockedDocument {
         value: string | Product;
       } | null)
     | ({
-        relationTo: 'product-images';
+        relationTo: 'product_images';
         value: string | ProductImage;
       } | null)
     | ({
@@ -414,7 +424,7 @@ export interface PayloadLockedDocument {
         value: string | Order;
       } | null)
     | ({
-        relationTo: 'order-items';
+        relationTo: 'order_items';
         value: string | OrderItem;
       } | null)
     | ({
@@ -426,7 +436,7 @@ export interface PayloadLockedDocument {
         value: string | Location;
       } | null)
     | ({
-        relationTo: 'terms-and-conditions';
+        relationTo: 'terms_and_conditions';
         value: string | TermsAndCondition;
       } | null)
     | ({
@@ -512,14 +522,22 @@ export interface ProductsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "product-images_select".
+ * via the `definition` "product_images_select".
  */
 export interface ProductImagesSelect<T extends boolean = true> {
-  id?: T;
-  image?: T;
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -564,7 +582,7 @@ export interface OrdersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "order-items_select".
+ * via the `definition` "order_items_select".
  */
 export interface OrderItemsSelect<T extends boolean = true> {
   orderId?: T;
@@ -606,7 +624,7 @@ export interface LocationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "terms-and-conditions_select".
+ * via the `definition` "terms_and_conditions_select".
  */
 export interface TermsAndConditionsSelect<T extends boolean = true> {
   title?: T;
@@ -623,6 +641,7 @@ export interface TermsAndConditionsSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

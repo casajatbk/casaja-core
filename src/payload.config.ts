@@ -4,6 +4,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -55,5 +56,24 @@ export default buildConfig({
     url: process.env.DATABASE_URL || '',
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    vercelBlobStorage({
+      enabled: true,
+      collections: {
+        product_images: {
+          prefix: 'product-image/',
+        },
+        media: {
+          prefix: 'media/',
+        },
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+      // Opsional: jika ingin prefix folder
+      // prefix: 'payload-media/',
+
+      // Penting jika deploy ke Vercel (untuk file > ~4.5MB)
+      // clientUploads: true,  // aktifkan client-side upload (direkomendasikan)
+      // access: 'public',     // default public, bisa 'private' jika butuh
+    }),
+  ],
 })

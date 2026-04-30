@@ -11,7 +11,7 @@ export const Products: CollectionConfig = {
       name: 'productImageId',
       type: 'relationship',
       label: 'Product Image',
-      relationTo: 'product-images',
+      relationTo: 'product_images',
     },
     {
       name: 'name',
