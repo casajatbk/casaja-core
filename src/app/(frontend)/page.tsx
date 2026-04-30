@@ -54,6 +54,9 @@ export default async function HomePage() {
           <code>app/(frontend)/page.tsx</code>
         </a>
       </div>
+      <div>
+        <p className="font-bold">Tailwind CSS successfully installed!</p>
+      </div>
     </div>
   )
 }
