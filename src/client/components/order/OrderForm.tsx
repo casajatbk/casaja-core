@@ -6,11 +6,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { orderSchema, type OrderFormData } from '@/client/validations/order.schema'
 import PaymentMethod from './PaymentMethod'
 import { useOrderStorage } from '@/client/hooks/order/useOrderStorage'
-// import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { ORDER_STORAGE_KEY } from '@/shared/constants/storage'
 
 export default function OrderForm() {
-  //   const router = useRouter()
+  const router = useRouter()
 
   const [hasStorage, setHasStorage] = useState(false)
   const [isAutoFilled, setIsAutoFilled] = useState(false)
@@ -20,16 +20,23 @@ export default function OrderForm() {
     setHasStorage(!!stored)
   }, [])
 
+  const defaultValues: OrderFormData = {
+    room: '',
+    name: '',
+    nim: '',
+    phone: '',
+    email: '',
+    payment: 'Cash',
+  }
+
+  const methods = useForm<OrderFormData>({
+    resolver: zodResolver(orderSchema as any) as Resolver<OrderFormData>,
+    defaultValues,
+  })
+
   const handleAutoFill = () => {
     if (isAutoFilled) {
-      methods.reset({
-        room: '',
-        name: '',
-        nim: '',
-        phone: '',
-        email: '',
-        payment: 'Cash',
-      })
+      methods.reset(defaultValues)
       setIsAutoFilled(false)
     } else {
       // Isi dari localStorage
@@ -38,18 +45,14 @@ export default function OrderForm() {
     }
   }
 
-  const resolver = zodResolver(orderSchema as any) as Resolver<OrderFormData>
-  const methods = useForm<OrderFormData>({
-    resolver,
-    defaultValues: {
-      room: '',
-      name: '',
-      nim: '',
-      phone: '',
-      email: '',
-      payment: 'Cash',
-    },
-  })
+  useEffect(() => {
+    const subscription = methods.watch((_, { type }) => {
+      if (type === 'change') {
+        setIsAutoFilled(false)
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [methods])
 
   const { loadFromStorage, saveToStorage } = useOrderStorage(methods)
 
@@ -57,15 +60,15 @@ export default function OrderForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
   } = methods
 
   const onSubmit = async (data: OrderFormData) => {
     saveToStorage(data)
+    setHasStorage(true)
     console.log('Data tersimpan:', data)
 
-    setTimeout(() => {
-      window.location.reload()
-    }, 300)
+    router.push('/success')
   }
 
   return (
@@ -192,6 +195,7 @@ export default function OrderForm() {
                 errors.email ? 'border-red-400 focus:ring-red-200' : 'focus:ring-slate-300'
               }`}
               placeholder="email@example.com"
+              type="email"
             />
             {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email?.message}</p>}
           </div>
@@ -201,13 +205,16 @@ export default function OrderForm() {
         <PaymentMethod />
 
         {/* Submit */}
-        <button
-          onClick={handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-          className="w-full bg-slate-800 text-white py-2.5 sm:py-3 rounded-xl text-sm sm:text-base font-medium hover:bg-slate-700 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
-        >
-          {isSubmitting ? 'Memproses...' : 'Lakukan Pemesanan'}
-        </button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {' '}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-slate-800 text-white py-2.5 sm:py-3 rounded-xl text-sm sm:text-base font-medium hover:bg-slate-700 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? 'Memproses...' : 'Lakukan Pemesanan'}
+          </button>
+        </form>
       </div>
     </FormProvider>
   )
