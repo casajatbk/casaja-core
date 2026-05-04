@@ -31,6 +31,11 @@ export const Orders: CollectionConfig = {
     },
     // Customer Information at Transaction
     {
+      name: 'deviceId',
+      type: 'text',
+      label: 'Device ID',
+    },
+    {
       name: 'customerName',
       type: 'text',
       label: 'Full Name',

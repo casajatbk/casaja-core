@@ -18,6 +18,7 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts"
   },
   "dependencies": {
+    "@hookform/resolvers": "^4.1.3",
     "@payloadcms/db-mongodb": "3.84.1",
     "@payloadcms/next": "3.84.1",
     "@payloadcms/richtext-lexical": "3.84.1",
@@ -33,8 +34,10 @@
     "postcss": "^8.5.12",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "react-hook-form": "^7.75.0",
     "sharp": "0.34.2",
-    "tailwindcss": "^4.2.4"
+    "tailwindcss": "^4.2.4",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@playwright/test": "1.58.2",

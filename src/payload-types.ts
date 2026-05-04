@@ -214,6 +214,7 @@ export interface Order {
   id: string;
   orderCode: string;
   orderStatus?: ('pending_payment' | 'paid' | 'approved' | 'ongoing' | 'completed' | 'cancelled' | 'rejected') | null;
+  deviceId?: string | null;
   customerName?: string | null;
   customerNim?: string | null;
   customerPhone?: string | null;
@@ -559,6 +560,7 @@ export interface ReviewsSelect<T extends boolean = true> {
 export interface OrdersSelect<T extends boolean = true> {
   orderCode?: T;
   orderStatus?: T;
+  deviceId?: T;
   customerName?: T;
   customerNim?: T;
   customerPhone?: T;
