@@ -23,10 +23,13 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 bg-navy-700 rounded-md flex items-center justify-center transition-transform group-hover:scale-105">
-              <span className="text-white font-bold text-sm">C</span>
-            </div>
+          <Link href="/" className="flex items-center gap-3 group">
+            <img
+              src="https://kaj5bd5xtsvgxojs.public.blob.vercel-storage.com/logo-casaja.jpeg"
+              alt="CASAJA Logo"
+              className="w-10 h-10 rounded-md object-contain transition-transform duration-200 group-hover:scale-105"
+            />
+
             <span className="font-bold text-navy-700 text-lg tracking-tight">
               CASAJA
             </span>

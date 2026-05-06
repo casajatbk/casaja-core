@@ -27,7 +27,7 @@ export default function Hero({
             <p className="text-gray-500 text-base sm:text-lg leading-relaxed mb-8 max-w-lg">
               {subheading}
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-6">
               <Link
                 href="/products"
                 className="inline-flex items-center justify-center px-6 py-3.5 bg-[#0D2740] text-white font-semibold rounded-md transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 text-sm sm:text-base"
@@ -47,12 +47,21 @@ export default function Hero({
           {/* Right: Product card visual */}
           <div className="flex justify-center lg:justify-end animate-fade-up [animation-delay:200ms] opacity-0-init">
             <div className="w-full max-w-sm sm:max-w-md lg:max-w-full">
-              <div className="bg-gray-100 rounded-2xl p-8 sm:p-12 flex flex-col items-center justify-center min-h-55 sm:min-h-70 border border-gray-200 shadow-sm">
-                <div className="bg-white rounded-xl p-5 shadow-sm mb-4">
-                  <Plug size={48} className="text-navy-700" />
-                </div>
-                <span className="text-gray-500 font-medium text-sm">Kabel Roll Premium</span>
+              
+              <div className="relative rounded-2xl overflow-hidden h-64 sm:h-80 lg:h-105">
+                {/* background */}
+                <img
+                  src="https://kaj5bd5xtsvgxojs.public.blob.vercel-storage.com/hook-product.jpeg"
+                  className="absolute inset-0 w-full h-full object-cover blur-xl scale-110"
+                />
+
+                {/* main image */}
+                <img
+                  src="https://kaj5bd5xtsvgxojs.public.blob.vercel-storage.com/hook-product.jpeg"
+                  className="relative w-full h-full object-contain scale-90"
+                />
               </div>
+
             </div>
           </div>
 
