@@ -1,15 +1,25 @@
 import { ReactNode } from 'react'
 
+import './globals.css'
+import Navbar from '@/client/components/navbar'
+import Footer from '@/client/components/footer'
+
 type LayoutProps = {
   children: ReactNode
 }
 
-import './globals.css'
-
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <html>
-      <body>{children}</body>
+    <html lang="en">
+      <body>
+        <Navbar />
+        
+        <main className="min-h-screen">
+          {children}
+        </main>
+
+        <Footer />
+      </body>
     </html>
   )
 }
