@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
+import { LOGO_URL } from '@/shared/constants/storage'
+
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
@@ -19,20 +21,16 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-sm">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
         <div className="flex items-center justify-between h-16">
-          
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <img
-              src="https://kaj5bd5xtsvgxojs.public.blob.vercel-storage.com/logo-casaja.jpeg"
+              src={LOGO_URL}
               alt="CASAJA Logo"
               className="w-10 h-10 rounded-md object-contain transition-transform duration-200 group-hover:scale-105"
             />
 
-            <span className="font-bold text-navy-700 text-lg tracking-tight">
-              CASAJA
-            </span>
+            <span className="font-bold text-navy-700 text-lg tracking-tight">CASAJA</span>
           </Link>
 
           {/* Desktop Nav */}

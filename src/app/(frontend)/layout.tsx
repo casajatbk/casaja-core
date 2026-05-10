@@ -7,33 +7,33 @@ import Navbar from '@/client/components/navbar'
 import Footer from '@/client/components/footer'
 import DeviceInit from '@/client/components/DeviceInit'
 
+import { LOGO_URL } from '@/shared/constants/storage'
+
 type LayoutProps = {
   children: ReactNode
 }
-
-const logoUrl = 'https://kaj5bd5xtsvgxojs.public.blob.vercel-storage.com/logo-casaja.jpeg'
 
 export const metadata: Metadata = {
   title: 'CASAJA - Cable Rental Service for BINUS Students',
   description: 'Layanan penyewaan kabel roll untuk mahasiswa BINUS',
 
   icons: {
-    icon: logoUrl,
-    shortcut: logoUrl,
-    apple: logoUrl,
+    icon: LOGO_URL,
+    shortcut: LOGO_URL,
+    apple: LOGO_URL,
   },
 
   openGraph: {
     title: 'CASAJA',
     description: 'Layanan penyewaan kabel roll untuk mahasiswa BINUS',
-    images: [logoUrl],
+    images: [LOGO_URL],
   },
 
   twitter: {
     card: 'summary_large_image',
     title: 'CASAJA',
     description: 'Layanan penyewaan kabel roll untuk mahasiswa BINUS',
-    images: [logoUrl],
+    images: [LOGO_URL],
   },
 }
 
