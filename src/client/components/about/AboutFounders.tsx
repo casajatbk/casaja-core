@@ -32,18 +32,25 @@ export default function AboutFounders() {
         Pendiri CASAJA
       </h2>
 
-      {/* Top row: 3 cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-        {topRow.map((founder) => (
-          <FounderCard key={founder.id} name={founder.name} id={founder.id} />
-        ))}
-      </div>
-
-      {/* Bottom row: 2 cards centered */}
-      <div className="flex flex-col sm:flex-row justify-center gap-4">
-        {bottomRow.map((founder) => (
-          <div key={founder.id} className="w-full sm:w-[calc(33.333%+0.5rem)] md:w-[32%]">
-            <FounderCard name={founder.name} id={founder.id} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
+        {founders.map((founder, index) => (
+          <div
+            key={founder.id}
+            className={`
+        ${
+          index === founders.length - 1
+            ? 'sm:col-span-2 lg:col-span-1 sm:flex sm:justify-center lg:block'
+            : ''
+        }
+      `}
+          >
+            <div
+              className={`
+          ${index === founders.length - 1 ? 'sm:w-[48%] lg:w-full' : 'w-full'}
+        `}
+            >
+              <FounderCard name={founder.name} id={founder.id} />
+            </div>
           </div>
         ))}
       </div>
